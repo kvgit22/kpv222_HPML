@@ -8,6 +8,8 @@ import numpy as np
 import sys
 import time
 
+time_sum = 0.0
+
 def dp(N,A,B):
     R = 0.0
     R = np.dot(A,B)
