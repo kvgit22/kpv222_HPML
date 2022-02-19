@@ -38,7 +38,7 @@
          float res;
          
          printf("***********************************************************************\n");
-         printf("dp3 - Testcases parameters N: %ld, Iter: %d",arr_size,iter);
+         printf("dp3 - Testcases parameters N: %ld, Iter: %d\n",arr_size,iter);
          printf("***********************************************************************\n");
          
          for(int k = 1; k <= iter; k++)
