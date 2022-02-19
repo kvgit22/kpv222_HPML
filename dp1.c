@@ -23,7 +23,7 @@ float dp(long N, float *pA, float *pB)
 
 int main(int argc, const char * argv[]) {
     
-    long arr_size = atoi(argv[1]);
+    long arr_size = atol(argv[1]);
     int iter = atoi(argv[2]);
     
     struct timespec start, end;
