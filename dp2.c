@@ -1,29 +1,28 @@
 //
-//  main.cpp
+//  dp2.c
 //  HPML_Assignment_1
 //
-//  Created by Kaushik Pobbi Setty Venkatesh on 2/13/22.
+//  Created by Kaushik Pobbi Setty Venkatesh on 2/14/22.
 //
-
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 
-float dp(long N, float *pA, float *pB)
+float dpunroll(long N, float *pA, float *pB)
 {
     float R = 0.0;
-    for(long j = 0; j < N; j++)
+    for(long j = 0; j < N; j += 4)
     {
-        R += pA[j] * pB[j];
+         R += (pA[j] * pB[j]) + (pA[j+1] * pB[j+1]) + (pA[j+2] * pB[j+2]) + (pA[j+3] * pB[j+3]);
     }
     return R;
 }
 
 int main(int argc, const char * argv[]) {
     
-    long arr_size = atoi(argv[1]);
+    long arr_size = atol(argv[1]);
     int iter = atoi(argv[2]);
     
     struct timespec start, end;
@@ -42,13 +41,13 @@ int main(int argc, const char * argv[]) {
         float res;
         
         printf("***********************************************************************\n");
-        printf("dp1 - Testcases parameters N: %ld, Iterations: %d\n",arr_size,iter);
+        printf("dp2 - Testcases parameters N: %ld, Iter: %d",arr_size,iter);
         printf("***********************************************************************\n");
         
         for(int k = 1; k <= iter; k++)
         {
             clock_gettime(CLOCK_MONOTONIC, &start);
-            res = dp(arr_size, arr_1, arr_2);
+            res = dpunroll(arr_size, arr_1, arr_2);
             clock_gettime(CLOCK_MONOTONIC, &end);
             
             time_per_iter[k] =(((double)end.tv_sec - (float)start.tv_sec)
@@ -65,7 +64,6 @@ int main(int argc, const char * argv[]) {
                 printf("Iteration: %3d ~ ", k);
             else
                 printf("Iteration: %2d ~ ", k);
-            
             printf("R: %.6f, T: %.6f sec, B: %.3lf GB/sec, F: %.3f GFLOP/sec\n",res, time_per_iter[k], bw_per_iter, thrpt_per_iter);
         }
         
@@ -79,10 +77,10 @@ int main(int argc, const char * argv[]) {
         float avg_comp_time = (time_sum / (iter / 2));
         
         // Bandwith calculation
-        float bw = ((double)(arr_size * 2 * 4) / (double)(1024 * 1024 * 1024 * avg_comp_time));
+        float bw = ((double)(arr_size * 8 * 4) / (double)(1024 * 1024 * 1024 * avg_comp_time));
         
         // FLOPS
-        float prg_thrpt = (arr_size * 2) / (avg_comp_time * 1000000000);
+        float prg_thrpt = (arr_size * 8) / (avg_comp_time * 1000000000);
         
         printf("\n");
         printf("Average readings for the second half of iterations\n");
