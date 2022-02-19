@@ -13,7 +13,7 @@
 
  float bdp(long N, float *pA, float *pB)
  {
-    float R - 0.0;
+    float R = 0.0;
     R = cblas_sdot(N, pA, 1, pB, 1);
     return R;
  }
